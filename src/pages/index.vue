@@ -1,0 +1,38 @@
+<template>
+  <div class="container">
+    <div class="header">
+      <img src="../assets/images/logo.svg" alt="">
+      <div class="title">
+        <p>粉丝管理平台</p>
+        <span>evtape.fans.com</span>
+      </div>
+      <p>助力直播间人气高涨</p>
+      <div class="quit">
+        <span class="icon-quit"></span>
+        <em>jsychen</em>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <!-- 左侧菜单 -->
+    <ul class="menu">
+      <li>
+        <span class="icon-customized"></span>
+        人气定制
+      </li>
+      <li>
+        <span class="icon-plan"></span>
+        快捷计划
+      </li>
+      <li>
+        <span class="icon-price"></span>
+        平台价格
+      </li>
+      <li>
+        <span class="icon-account"></span>
+        账户信息
+      </li>
+    </ul>
+    <!-- 右侧内容 -->
+    <router-view></router-view>
+  </div>
+</template>
