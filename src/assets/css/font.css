@@ -30,10 +30,12 @@
 }
 .icon-fail:before {
   content: "\e90d";
+  color: #ea4747;
 }
 .icon-cart:before {
   content: "\e900";
   color: #fff;
+  font-size: 28px;
 }
 .icon-plan:before {
   content: "\e901";
@@ -66,6 +68,7 @@
 .icon-wechat:before {
   content: "\e908";
   color: #51c332;
+  font-size: 28px;
 }
 .icon-verification:before {
   content: "\e909";

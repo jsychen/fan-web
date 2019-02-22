@@ -10,6 +10,7 @@ import customized from '../pages/tenant/customized'
 import plan from '../pages/tenant/plan'
 import platformPrice from '../pages/tenant/platformPrice'
 import account from '../pages/tenant/account'
+import result from '../pages/tenant/result'
 
 
 Vue.use(Router)
@@ -37,6 +38,11 @@ export default new Router({
           path: '/home',
           name: 'customized',
           component: customized
+        },
+        {
+          path: '/home/result',
+          name: 'result',
+          component: result
         },
         {
           path: '/plan',

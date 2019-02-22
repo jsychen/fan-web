@@ -56,13 +56,37 @@
         </div>
       </div>
     </div>
+    <!-- 支付订单 -->
+    <Modal
+        v-model="payModal"
+        title="支付订单"
+        width="300"
+        footer-hide>
+        <div class="pay-content">
+          <div class="item">
+            <label>支付金额：</label>
+            <i>298元</i>
+          </div>
+          <div class="item">
+            <label>支付方式：</label>
+            <span class="icon-wechat"></span>
+            <em>微信</em>
+          </div>
+          <div class="qrcode">
+            支付二维码
+          </div>
+          <p class="tip">请打开微信扫码支付</p>
+        </div>
+    </Modal>
   </div>
 </template>
 <script>
 let echarts = require("echarts");
 export default {
   data: function () {
-    return {}
+    return {
+      payModal: true
+    }
   },
   mounted: function () {
     this.initEcharts();
