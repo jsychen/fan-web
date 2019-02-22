@@ -3,10 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import iView from 'iview'
 
+Vue.use(iView);
 
+import 'iview/dist/styles/iview.css'
 import './assets/css/common.css'
 import './assets/css/font.css'
+
 
 Vue.config.productionTip = false
 

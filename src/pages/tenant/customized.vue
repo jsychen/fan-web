@@ -5,19 +5,54 @@
         <p>28888</p>
         <span>直播间在线人气资源<br>企鹅电竞</span>
       </div>
-      <img src="../assets/images/qie.svg" alt="">
+      <img src="../../assets/images/qie.svg" alt="">
     </div>
     <div class="part">
       <div class="title">
         <span>人气定制</span>
       </div>
       <div class="part-content">
-        <div id="echarts">
+        <div class="echarts">
+          <div id="echarts"></div>
+          <p>购买的人气会在服务时间里按规律进入直播间保证平均每小时会有额外500人观看</p>
         </div>
         <div class="orderForm">
           <div class="payMent">
             支付金额：<span>￥298</span>
           </div>
+          <form>
+            <div class="formLine">
+              <label>补充人气时间：</label>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <i>至</i>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <div class="clear"></div>
+            </div>
+            <div class="formLine">
+              <label>选购在线人气：</label>
+              <em>-</em>
+              <input type="number">
+              <em>+</em>
+              <p>所选时间段共有可用在线人气28888</p>
+              <div class="clear"></div>
+            </div>
+            <div class="formLine">
+              <label>直播房间地址：</label>
+              <input type="text">
+              <div class="clear"></div>
+            </div>
+            <div class="formLine">
+              <label>人气均价：</label>
+              <span>0.3元 / 个 / 小时</span>
+              <div class="clear"></div>
+            </div>
+            <div class="formBtn">
+              <button type="button">
+                <span class="icon-cart"></span>
+                <i>购买人气</i>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

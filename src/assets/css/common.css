@@ -203,11 +203,13 @@ input {
   margin-right: 5px;
   line-height: 50px;
 }
-.menu li:hover {
+.menu li:hover,
+.menu li.current {
   border-color: #61b3ff;
   color: #61b3ff;
 }
-.menu li:hover span::before {
+.menu li:hover span::before,
+.menu li.current span::before {
   color: #61b3ff;
 }
 .content {
@@ -257,11 +259,18 @@ input {
   line-height: 24px;
   float: left;
 }
-#echarts {
+.echarts {
   width: 320px;
+  float: left;
+}
+.echarts #echarts {
+  width: 100%;
   height: 190px;
   background: url(../images/echartBg.png);
-  float: left;
+}
+.echarts p {
+  padding: 20px;
+  text-align: center;
 }
 .part-content {
   margin-top: 20px;
@@ -280,8 +289,81 @@ input {
   background: url(../images/priceBg.png);
   color: #999;
   line-height: 30px;
+  margin-bottom: 20px;
 }
 .orderForm .payMent span {
   color: #ea4747;
   font-size: 30px;
+}
+.orderForm .formLine {
+  padding: 10px;
+}
+.orderForm .formLine > * {
+  float: left;
+  line-height: 30px;
+}
+.orderForm .formLine label {
+  width: 100px;
+  color: #999;
+}
+.orderForm .formLine i {
+  width: 20px;
+  text-align: center;
+  color: #999;
+}
+.orderForm .formLine .ivu-date-picker {
+  width: 160px;
+}
+.orderForm .formLine .clear {
+  float: none;
+}
+.orderForm .formLine input {
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 18px;
+  color: #999;
+}
+.orderForm .formLine input[type='number'] {
+  width: 50px;
+  margin: 0 10px;
+}
+.orderForm .formLine em {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
+  font-size: 20px;
+  text-align: center;
+  color: #999;
+}
+.orderForm .formLine p {
+  color: #999;
+  margin-left: 100px;
+}
+.orderForm .formBtn {
+  border-top: 1px dashed #e9e9e9;
+  padding-top: 20px;
+}
+.orderForm .formBtn button {
+  width: 150px;
+  height: 40px;
+  background: #ea4747;
+  border: 0;
+  border-radius: 5px;
+  text-align: center;
+  overflow: hidden;
+  clear: both;
+}
+.orderForm .formBtn button * {
+  float: left;
+  line-height: 40px;
+}
+.orderForm .formBtn button i {
+  font-size: 18px;
+  color: #fff;
+}
+.orderForm .formBtn button span::before {
+  font-size: 28px;
+  margin-left: 25px;
 }

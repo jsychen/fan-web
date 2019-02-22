@@ -209,7 +209,7 @@ input{
       margin-right: 5px;
       line-height: 50px;
     }
-    &:hover{
+    &:hover,&.current{
       border-color: @blue;
       color: @blue;
       span::before{
@@ -266,11 +266,18 @@ input{
     }
   }
 }
-#echarts{
+.echarts{
   width: 320px;
-  height: 190px;
-  background: url(../images/echartBg.png);
   float: left;
+  #echarts{
+    width: 100%;
+    height: 190px;
+    background: url(../images/echartBg.png);
+  }
+  p{
+    padding: 20px;
+    text-align: center;
+  }
 }
 .part-content{
   margin-top: 20px;
@@ -288,9 +295,82 @@ input{
     background: url(../images/priceBg.png); 
     color: #999;
     line-height: 30px;
+    margin-bottom: 20px;
     span{
       color: #ea4747;
       font-size: 30px;
     }
+  }
+  .formLine{
+    padding: 10px;
+    >*{
+      float: left;
+      line-height: 30px;
+    }
+    label{
+      width: 100px;
+      color: #999;
+    }
+    i{
+      width: 20px;
+      text-align: center;
+      color: #999;
+    }
+    .ivu-date-picker{
+      width: 160px;
+    }
+    .clear{
+      float: none;
+    }
+    input{
+      border: 1px solid @border;
+      border-radius: 3px;
+      box-sizing: border-box;
+      line-height: 18px;
+      color: #999;
+      &[type='number']{
+        width: 50px;
+        margin: 0 10px;
+      }
+    }
+    em{
+      width: 30px;
+      height: 30px;
+      border: 1px solid @border;
+      border-radius: 3px;
+      font-size: 20px;
+      text-align: center;
+      color: #999;
+    }
+    p{
+      color: #999;
+      margin-left: 100px;
+    }
+  }
+  .formBtn{
+    border-top: 1px dashed @border;
+    padding-top: 20px;
+    button{
+      width: 150px;
+      height: 40px;
+      background:#ea4747;
+      border: 0;
+      border-radius: 5px;
+      text-align: center;
+      overflow: hidden;
+      clear: both;
+      *{
+        float: left;
+        line-height: 40px;
+      }
+      i{
+        font-size: 18px;
+        color: #fff;
+      }
+      span::before{
+        font-size: 28px;
+        margin-left: 25px;
+      }
+    } 
   }
 }
