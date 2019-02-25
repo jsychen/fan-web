@@ -17,7 +17,7 @@
           <span class="icon-fail"></span>
           <em>支付失败，因所选时间段可用人气不足/其它原因</em>
         </div>
-        <div class="result-content">
+        <div class="detail">
           <div class="item">
             <label>支付金额：</label>
             <span>￥298</span>

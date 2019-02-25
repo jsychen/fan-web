@@ -9,19 +9,19 @@
         </div>
       </div>
       <form id="myForm">
-        <div class="formLine">
+        <div class="item">
           <span class="icon-phone"></span>
           <input type="text" placeholder="填写11位手机号码" name="phoneNumber">
         </div>
         <div class="code">
-          <div class="formLine">
+          <div class="item">
             <span class="icon-verification"></span>
             <input type="text" placeholder="输入短信收到的验证码" name="verificationCode">
           </div>
           <button class="button" type="button">获取验证码</button>
         </div>
         <button class="button" type="submit">立即登录</button>
-        <p>没有账号，<a href="javascript:;">立即注册</a></p>
+        <p>没有账号，<router-link tag="a" :to="{name: 'register'}">立即注册</router-link></p>
       </form>
     </div>
   </div>

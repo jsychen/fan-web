@@ -7,10 +7,12 @@ import register from '../pages/common/register'
 import home from '../pages/common/home'
 
 import customized from '../pages/tenant/customized'
-import plan from '../pages/tenant/plan'
 import platformPrice from '../pages/tenant/platformPrice'
 import account from '../pages/tenant/account'
 import result from '../pages/tenant/result'
+
+import plan from '../pages/plan'
+import addPlan from '../pages/plan/add'
 
 
 Vue.use(Router)
@@ -47,7 +49,12 @@ export default new Router({
         {
           path: '/plan',
           name: 'plan',
-          component: plan
+          component: plan,
+        },
+        {
+          path: '/plan/add',
+          name: 'addPlan',
+          component: addPlan
         },
         {
           path: '/platformPrice',

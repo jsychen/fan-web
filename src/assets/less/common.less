@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-size: 14px;
+  color: #000;
 }
 body,html,#app{
   width: 100%;
@@ -36,7 +37,7 @@ div{
 .shadow{
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-input{
+input,select{
   padding: 5px;
   outline: none !important;
 }
@@ -82,7 +83,7 @@ input{
     }
   }
   form{
-    .formLine{
+    .item{
       padding: 10px;
       height: 48px;
       border: 1px solid @border;
@@ -108,7 +109,7 @@ input{
       clear: both;
       margin-top: 20px;
       padding-bottom: 5px;
-      .formLine{
+      .item{
         float: left;
         width: 250px;
         margin-top: 0;
@@ -305,8 +306,10 @@ input{
       font-size: 30px;
     }
   }
-  .formLine{
+  .item{
     padding: 10px;
+    float: left;
+    width: 100%;
     >*{
       float: left;
       line-height: 30px;
@@ -326,7 +329,7 @@ input{
     .clear{
       float: none;
     }
-    input{
+    input,select{
       border: 1px solid @border;
       border-radius: 3px;
       box-sizing: border-box;
@@ -336,6 +339,9 @@ input{
         width: 50px;
         margin: 0 10px;
       }
+    }
+    select{
+      width: 182px;
     }
     em{
       width: 30px;
@@ -352,17 +358,19 @@ input{
     }
   }
   .formBtn{
+    width: 100%;
+    float: left;
     border-top: 1px dashed @border;
     padding-top: 20px;
     button{
       width: 150px;
       height: 40px;
-      background: @red;
       border: 0;
       border-radius: 5px;
       text-align: center;
       overflow: hidden;
       clear: both;
+      color: #fff;
       *{
         float: left;
         line-height: 40px;
@@ -375,6 +383,12 @@ input{
         margin-left: 25px;
       }
     } 
+    .red{
+      background: @red;
+    }
+    .blue{
+      background: @blue;
+    }
   }
 }
 // 支付弹框
@@ -439,32 +453,146 @@ input{
     em{
       font-size: 24px;
       margin-left: 10px;
-      color: #000;
     }
   }
-  .result-content{
+  .detail{
     width: 450px;
-    padding: 10px 20px;
     margin-left: 70px;
+  }
+}
+.detail{
+  padding: 10px 20px;
+  background: url(../images/echartBg.png) repeat;
+  .item{
+    overflow: hidden;
+    clear: both;
+    *{
+      float: left;
+      line-height: 40px;
+    }
+    label{
+      width: 110px;
+      color: #999;
+    }
+    i{
+      padding: 0 8px;
+      color: #999;
+    }
+  }
+}
+// 快捷计划
+.pannel{
+  .part{
+    width: 400px;
+    padding: 20px;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    &:nth-of-type(1){
+      margin-left: 0;
+    }
+  }
+  .detail{
+    margin-top: 20px;
     background: url(../images/echartBg.png) repeat;
-    .item{
-      overflow: hidden;
-      clear: both;
+  }
+  .pannel-content{
+    margin: 20px 0;
+    .newBtn{
+      display: block;
+      font-size: 18px;
+      line-height: 90px;
+      color: @blue;
+      border: 1px dashed @blue;
+      text-align: center;
+      margin-top: 30px;
+    }
+  }
+  button{
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+}
+// 平台价格
+.table{
+  margin-top: 20px;
+  >p{
+    color: #999;
+    margin-bottom: 5px;
+  }
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    th,td{
+      height: 44px;
+      text-align: left;
+      padding: 0 10px;
+      border-bottom: 1px solid @border;
+    }
+    th{
+      background: #fafafa;
+    }
+    td{
       *{
         float: left;
-        line-height: 40px;
-      }
-      label{
-        width: 110px;
-        color: #999;
-      }
-      span{
-        color: #000;
-      }
-      i{
-        padding: 0 8px;
-        color: #999;
+        margin-left: 10px;
+        &:nth-child(1){
+          margin-left: 0;
+        }
       }
     }
   }
+}
+// 账户信息
+.basic,.balance{
+  padding: 10px 0;
+  overflow: hidden;
+  clear: both;
+  *{
+    float: left;
+  }
+  &.basic{
+    border-bottom: 1px solid @border;
+    margin-top: 10px;
+  }
+  .item{
+    *{
+      line-height: 30px;
+    }
+    label{
+      color: #999;
+    }
+    span{
+      margin: 0 50px 0 5px;
+      font-size: 16px;
+    }
+  }
+  &.balance{
+    p{
+      width: 100%;
+      color: #999;
+    }
+    label{
+      font-size: 24px;
+      color: @red;
+      margin-right: 20px;
+      line-height: 30px;
+    }
+    .button{
+      width: 60px;
+      height: 30px;
+      border-radius: 3px;
+    }
+  }
+}
+.mT20{
+  margin-top: 20px;
+}
+.red{
+  color: @red;
+}
+.blue{
+  color: @blue;
 }

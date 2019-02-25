@@ -24,6 +24,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-edit:before {
+  content: "\e90e";
+  color: #61b3ff;
+}
 .icon-success:before {
   content: "\e90c";
   color: #0ece5b;

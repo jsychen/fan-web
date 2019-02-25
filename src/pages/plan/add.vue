@@ -1,15 +1,8 @@
 <template>
   <div class="content">
-    <div class="platform">
-      <div class="info">
-        <p>28888</p>
-        <span>直播间在线人气资源<br>企鹅电竞</span>
-      </div>
-      <img src="../../assets/images/qie.svg" alt="">
-    </div>
     <div class="part">
       <div class="title">
-        <span>人气定制</span>
+        <span>创建计划</span>
       </div>
       <div class="part-content">
         <div class="echarts">
@@ -18,14 +11,24 @@
         </div>
         <div class="orderForm">
           <div class="payMent">
-            支付金额：<span>￥298</span>
+            预计支付金额：<span>￥298</span>
           </div>
           <form>
             <div class="item">
+              <label>计划名称：</label>
+              <input type="text" placeholder="计划一">
+            </div>
+            <div class="item">
+              <label>选择相对日期：</label>
+              <select>
+                <option v-for="item in date" :value="item.value" :key="item.value">{{ item.label }}</option>
+            </select>
+            </div>
+            <div class="item">
               <label>补充人气时间：</label>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]"></TimePicker>
               <i>至</i>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]"></TimePicker>
               <div class="clear"></div>
             </div>
             <div class="item">
@@ -47,37 +50,12 @@
               <div class="clear"></div>
             </div>
             <div class="formBtn">
-              <button class="red" type="button">
-                <span class="icon-cart"></span>
-                <i>购买人气</i>
-              </button>
+              <button class="blue" type="button">创建计划</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-    <!-- 支付订单 -->
-    <Modal
-        v-model="payModal"
-        title="支付订单"
-        width="300"
-        footer-hide>
-        <div class="pay-content">
-          <div class="item">
-            <label>支付金额：</label>
-            <i>298元</i>
-          </div>
-          <div class="item">
-            <label>支付方式：</label>
-            <span class="icon-wechat"></span>
-            <em>微信</em>
-          </div>
-          <div class="qrcode">
-            支付二维码
-          </div>
-          <p class="tip">请打开微信扫码支付</p>
-        </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -85,7 +63,13 @@ let echarts = require("echarts");
 export default {
   data: function () {
     return {
-      payModal: true
+      payModal: true,
+      date: [
+        {value: 0, label: '今天'},
+        {value: 1, label: '明天'},
+        {value: 2, label: '后天'},
+        {value: 3, label: '大后天'}
+      ]
     }
   },
   mounted: function () {
