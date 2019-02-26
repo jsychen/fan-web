@@ -8,7 +8,7 @@
       </div>
       <p>助力直播间人气高涨</p>
       <div class="quit">
-        <span class="icon-quit"></span>
+        <span class="icon-quit" @click="doLogout"></span>
         <em>{{username}}</em>
       </div>
       <div class="clear"></div>
@@ -37,11 +37,25 @@
   </div>
 </template>
 <script>
+import {logout} from '@/api/api';
+
 export default {
     data: function () {
         return {
             username: this.$store.get('username')
         }
+    },
+    methods: {
+       doLogout: async function () {
+          let res = await logout();
+          if(res.meta.code === 0){
+             this.$store.remove('token');
+             this.$store.remove('balance');
+             this.$store.remove('username');
+             this.$store.remove('phone');
+             this.$router.push({'name': 'login'});
+          }
+       }
     }
 }
 </script>
