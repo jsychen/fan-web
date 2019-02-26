@@ -44,6 +44,10 @@ input,select{
 ::placeholder{
   color: #999;
 }
+button{
+    cursor: pointer;
+    outline: none;
+}
 .button{
   box-shadow: 0 3px 7px rgba(97,179,255,0.35);
   height: 46px;
@@ -227,7 +231,7 @@ input,select{
 .content{
   position: fixed;
   left: 220px;
-  top: 70px;
+  top: 75px;
   right: 20px;
   bottom: 20px;
 }
@@ -274,15 +278,15 @@ input,select{
 .echarts{
   width: 320px;
   float: left;
-  #echarts{
-    width: 100%;
-    height: 190px;
-    background: url(../images/echartBg.png);
-  }
   p{
     padding: 20px;
     text-align: center;
   }
+}
+#echarts{
+  width: 100%;
+  height: 190px;
+  background: url(../images/echartBg.png);
 }
 .part-content{
   margin-top: 20px;
@@ -570,6 +574,7 @@ input,select{
     }
   }
   &.balance{
+    margin-top: 20px;
     p{
       width: 100%;
       color: #999;
@@ -595,4 +600,75 @@ input,select{
 }
 .blue{
   color: @blue;
+}
+.recharge{
+  overflow: hidden;
+  clear: both;
+  .left{
+    width: 310px;
+    float: left;
+    p{
+      color: #666;
+      line-height: 30px;
+      overflow: hidden;
+      clear: both;
+      *{
+        float: left;
+      }
+    }
+    ul{
+      overflow: hidden;
+      clear: both;
+      margin-bottom: 20px;
+      margin-top: 5px;
+      li{
+        width: 80px;
+        line-height: 40px;
+        float: left;
+        border: 1px solid @border;
+        text-align: center;
+        border-radius: 3px;
+        margin-right: 10px;
+        color: #333;
+        &.active{
+          border-color: @red;
+          color: @red;
+        }
+      }
+    }
+  }
+  .right{
+    float: right;
+    width: 180px;
+    padding: 5px 20px;
+    border-left: 1px solid @border;
+    .qrcode{
+      width: 140px;
+      height: 140px;
+      background: #ddd;
+      text-align: center;
+      line-height: 140px;
+    }
+    p{
+      text-align: center;
+      color: #999;
+      margin-top: 5px;
+    }
+  }
+}
+.qrcode{
+  width: 180px;
+  height: 18px;
+}
+.ivu-modal{
+  #echarts{
+    width: 320px !important;
+  }
+}
+.ivu-icon-ios-help-circle {
+  font-size: 28px !important;
+  color: #f90 !important;
+}
+.ivu-btn.ivu-btn-primary span{
+  color: #fff;
 }

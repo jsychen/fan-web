@@ -9,7 +9,7 @@
       <p>助力直播间人气高涨</p>
       <div class="quit">
         <span class="icon-quit"></span>
-        <em>jsychen</em>
+        <em>{{username}}</em>
       </div>
       <div class="clear"></div>
     </div>
@@ -36,3 +36,13 @@
     <router-view></router-view>
   </div>
 </template>
+<script>
+export default {
+    data: function () {
+        return {
+            username: this.$store.get('username')
+        }
+    }
+}
+</script>
+

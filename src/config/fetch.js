@@ -10,7 +10,6 @@ const timeoutResponse = {
 export default async (url = '', data = {}, method = 'GET') => {
     method = method.toUpperCase();
     url = baseUrl + url;
-    console.log(url)
     // GET方法
     if( method === 'GET' ) {
         let params = '';
@@ -31,13 +30,14 @@ export default async (url = '', data = {}, method = 'GET') => {
     }
     // PUT和POST方法
     if( method === 'POST' || method === 'PUT' ) {
+        console.log(1111)
         return await http({
             method: method,
             url: url,
             data: data,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded'
+            // }
           }).then(response => response)
             .catch(function (err) {
               return timeoutResponse;

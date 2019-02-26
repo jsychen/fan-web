@@ -85,7 +85,7 @@ let echarts = require("echarts");
 export default {
   data: function () {
     return {
-      payModal: true
+      payModal: false
     }
   },
   mounted: function () {

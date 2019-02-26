@@ -7,11 +7,7 @@
  */
 let baseUrl = '';
 if (process.env.NODE_ENV === 'development') {
-    // baseUrl = 'http://192.168.2.233:8080/api';
-
-    baseUrl = 'http://192.168.2.121:8080/api';
-
-    // baseUrl = 'https://mp.evtape.cn/api';
+    baseUrl = 'http://192.168.2.179:7000';
     
 } else {
     baseUrl = 'https://mp.evtape.cn/api';

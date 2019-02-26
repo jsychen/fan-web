@@ -22,7 +22,7 @@ export default new Router({
   linkActiveClass: 'current',
   routes: [
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: login
     },
