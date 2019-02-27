@@ -11,11 +11,11 @@
           </tr>
           <tr>
             <td>00:00-06:00</td>
-            <td>{{price + 0.18}}元/小时</td>
+            <td>{{averagePrice}}元/小时</td>
           </tr>
           <tr>
             <td>06:00-16:00</td>
-            <td>{{price + 0.18}}元/小时</td>
+            <td>{{averagePrice}}元/小时</td>
           </tr>
           <tr>
             <td>16:00-22:00</td>
@@ -23,7 +23,7 @@
           </tr>
           <tr>
             <td>22:00-00:00</td>
-            <td>{{price + 0.18}}元/小时</td>
+            <td>{{averagePrice}}元/小时</td>
           </tr>
         </table>
       </div>
@@ -36,7 +36,7 @@ import {getPrice} from '@/api/api';
 export default {
    data: function (params) {
       return {
-         price: []
+         averagePrice: 0
       }
    },
    mounted: function () {
@@ -46,7 +46,7 @@ export default {
       doGetPrice: async function () {
          let res = await getPrice();
          if(res.meta.code === 0){
-            this.price = res.data.price;
+            this.averagePrice = res.data.price;
          }
       }
    }

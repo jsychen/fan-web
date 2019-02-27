@@ -117,7 +117,7 @@
 let echarts = require("echarts");
 
 import validate from "@/utils/validate";
-import {getOrder, updateUser} from '@/api/api';
+import {getJob, updateUser} from '@/api/api';
 
 export default {
    data: function() {
@@ -136,15 +136,15 @@ export default {
       };
    },
    mounted: function() {
-      this.doGetOrder();
+      this.doGetJob();
    },
    methods: {
       // 获取已购订单列表
-      doGetOrder: async function () {
+      doGetJob: async function () {
          let data = {
             type: 0
          };
-         let res = await getOrder(data);
+         let res = await getJob(data);
          if(res.meta.code === 0){
             this.orders = res.data;
             return;

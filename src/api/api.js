@@ -12,11 +12,43 @@ export const login = data => fetch('/session', data, 'POST');
 // 退出
 export const logout = () => fetch('/user', {}, 'DELETE');
 
-// 获取已购订单列表
-export const getOrder = data => fetch('/job', data, 'GET');
+// 获取任务列表
+/**
+ * 
+ * @param {type} 
+ * 
+ * type 0:已购订单  1:计划
+ * 
+ */
+export const getJob = data => fetch('/job', data, 'GET');
 
 // 修改用户名
 export const updateUser = data => fetch('/user', data, 'PUT');
 
 // 获取服务器加个
 export const getPrice = () => fetch('/spot', {}, 'GET');
+
+/**
+ * 新建计划
+ * @param {*}  
+ * {
+  "endTime": "string",
+  "jobName": "string",
+  "jobNo": "string",
+  "liveUrl": "string",
+  "number": 0,
+  "startTime": "string",
+  "totalPrice": 0,
+  "unitPrice": 0
+}
+ */
+export const addPlan = data => fetch('/job', data, 'POST');
+
+// 删除计划
+export const deletePlan = id => fetch('/job/' + id, {}, 'DELETE');
+
+// 获取计划详情
+export const getJobInfo = id => fetch('/job/' + id, {}, 'GET');
+
+// 编辑计划
+export const updatePlan = (id, data) => fetch('/job/' + id, data, 'PUT');

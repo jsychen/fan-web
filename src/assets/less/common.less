@@ -234,6 +234,7 @@ button{
   top: 75px;
   right: 20px;
   bottom: 20px;
+  overflow-y: auto;
 }
 .platform{
   width: 400px;
@@ -259,21 +260,36 @@ button{
   }
 }
 .part{
-  padding: 20px;
-  background: #fff;
-  .shadow;
-  border-radius: 3px;
-  .title{
-    height: 24px;
-    border-left: 2px solid @green;
-    padding: 0 10px;
-    overflow: hidden;
-    clear: both;
-    span{
-      line-height: 24px;
-      float: left;
-    }
-  }
+   padding: 20px;
+   background: #fff;
+   .shadow;
+   border-radius: 3px;
+   .title{
+      height: 24px;
+      border-left: 2px solid @green;
+      padding: 0 10px;
+      overflow: hidden;
+      clear: both;
+      span{
+         line-height: 24px;
+         float: left;
+      }
+      .ivu-dropdown{
+         float: right;
+         margin-right: -10px;
+         .ivu-dropdown-rel{
+            width: 28px;
+            height: 24px;
+            border: 1px solid @border;
+            border-radius: 3px;
+            text-align: center;
+            .ivu-icon::before{
+               font-size: 24px;
+               color: #ccc;
+            }
+         }
+      }
+   }
 }
 .echarts{
   width: 320px;
@@ -323,27 +339,32 @@ button{
       color: #999;
     }
     i{
-      width: 20px;
+      width: 30px;
       text-align: center;
       color: #999;
     }
     .ivu-date-picker{
-      width: 160px;
+      width: 140px;
     }
     .clear{
       float: none;
     }
-    input,select{
+   >input,select{
+      width: 140px;
       border: 1px solid @border;
       border-radius: 3px;
       box-sizing: border-box;
       line-height: 18px;
       color: #999;
       &[type='number']{
-        width: 50px;
-        margin: 0 10px;
+         text-align: center;
+         width: 60px;
+         margin: 0 10px;
       }
-    }
+      &[name='liveUrl']{
+         width: 300px;
+      }
+   }
     select{
       width: 182px;
     }
@@ -491,9 +512,9 @@ button{
     padding: 20px;
     float: left;
     margin-bottom: 20px;
-    margin-left: 20px;
-    &:nth-of-type(1){
-      margin-left: 0;
+    margin-right: 20px;
+    &:nth-last-of-type(1){
+      margin-right: 0;
     }
   }
   .detail{

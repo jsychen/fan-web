@@ -14,64 +14,37 @@
       <div class="clear"></div>
     </div>
     <div class="pannel">
-      <div class="part">
-        <div class="title">
-          <span>计划一</span>
-          <em></em>
+      <div class="part" v-for="item in plans" :key="item.id">
+         <div class="title">
+            <span>{{item.jobName}}</span>
+            <Dropdown trigger="click">
+               <a href="javascript:void(0)">
+                  <Icon type="ios-arrow-down"></Icon>
+               </a>
+               <DropdownMenu slot="list">
+                  <router-link class="ivu-dropdown-item" tag="div" :to="{'path': '/plan/update?id=' + item.id}">编辑</router-link>
+                  <div class="ivu-dropdown-item" @click="doDeletePlan(item.id)">删除</div>
+               </DropdownMenu>
+            </Dropdown>
         </div>
         <div class="detail">
           <div class="item">
             <label>预计支付金额：</label>
-            <span>￥298</span>
-          </div>
-          <div class="item">
-            <label>选择相对日期：</label>
-            <span>2019-2-24</span>
+            <span>￥{{item.totalPrice/100}}</span>
           </div>
           <div class="item">
             <label>补充人气时间：</label>
-            <span>19:00</span>
+            <span>{{item.startTime}}</span>
             <i>至</i>
-            <span>23:00</span>
+            <span>{{item.endTime}}</span>
           </div>
           <div class="item">
             <label>直播房间地址：</label>
-            <span>https://</span>
+            <span>{{item.liveUrl}}</span>
           </div>
           <div class="item">
             <label>选购在线人气：</label>
-            <span>500</span>
-          </div>
-        </div>
-        <button class="button" type="button">使用计划</button>
-      </div>
-      <div class="part">
-        <div class="title">
-          <span>计划一</span>
-          <em></em>
-        </div>
-        <div class="detail">
-          <div class="item">
-            <label>预计支付金额：</label>
-            <span>￥298</span>
-          </div>
-          <div class="item">
-            <label>选择相对日期：</label>
-            <span>2019-2-24</span>
-          </div>
-          <div class="item">
-            <label>补充人气时间：</label>
-            <span>19:00</span>
-            <i>至</i>
-            <span>23:00</span>
-          </div>
-          <div class="item">
-            <label>直播房间地址：</label>
-            <span>https://</span>
-          </div>
-          <div class="item">
-            <label>选购在线人气：</label>
-            <span>500</span>
+            <span>{{item.number}}</span>
           </div>
         </div>
         <button class="button" type="button">使用计划</button>
@@ -79,3 +52,40 @@
     </div>
   </div>
 </template>
+<script>
+
+import {getJob, deletePlan} from '@/api/api';
+
+export default {
+   data: function () {
+      return {
+         plans: []
+      }
+   },
+   mounted: function () {
+      this.doGetJob();
+   },
+   methods: {
+      // 获取计划列表
+      doGetJob: async function () {
+         let data = {
+            type: 1
+         };
+         let res = await getJob(data);
+         if(res.meta.code === 0){
+            this.plans = res.data;
+            return;
+         }
+         this.$Message.error(res.meta.message);
+      },
+      // 删除计划
+      doDeletePlan: async function (id) {
+         let res = await deletePlan(id);
+         if(res.meta.code === 0){
+            this.$Message.success('删除成功');
+            this.plans = res.data;
+         }
+      }
+   }
+}
+</script>
