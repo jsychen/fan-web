@@ -27,6 +27,7 @@
 .icon-edit:before {
   content: "\e90e";
   color: #61b3ff;
+  cursor: pointer;
 }
 .icon-success:before {
   content: "\e90c";

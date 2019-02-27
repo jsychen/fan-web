@@ -663,3 +663,6 @@ button {
 .ivu-btn.ivu-btn-primary span {
   color: #fff;
 }
+.update {
+  padding: 20px;
+}

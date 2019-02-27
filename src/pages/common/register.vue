@@ -77,23 +77,24 @@ export default {
             if (res.meta.code !== 0) {
                 this.$Message.error(message);
             } else {
-                this.$Message.success(message);
-                //倒计时
-                let count = 120;
-                let timer;
-                let self = this;
-                (function countDown() {
-                    if (count >= 0) {
-                        self.btnStr = "重新发送 " + count;
-                        count--;
-                        self.disabled = true;
-                        timer = setTimeout(countDown, 1000);
-                    } else {
-                        clearTimeout(timer);
-                        self.btnStr = "重新发送";
-                        self.disabled = false;
-                    }
-                })();
+               this.verification = res.data;
+               this.$Message.success(message);
+               //倒计时
+               let count = 120;
+               let timer;
+               let self = this;
+               (function countDown() {
+                  if (count >= 0) {
+                     self.btnStr = "重新发送 " + count;
+                     count--;
+                     self.disabled = true;
+                     timer = setTimeout(countDown, 1000);
+                  } else {
+                     clearTimeout(timer);
+                     self.btnStr = "重新发送";
+                     self.disabled = false;
+                  }
+               })();
             }
         },
         // 注册

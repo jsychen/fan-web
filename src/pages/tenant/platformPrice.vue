@@ -11,22 +11,45 @@
           </tr>
           <tr>
             <td>00:00-06:00</td>
-            <td>0.28元/小时</td>
+            <td>{{price + 0.18}}元/小时</td>
           </tr>
           <tr>
-            <td>00:00-06:00</td>
-            <td>0.28元/小时</td>
+            <td>06:00-16:00</td>
+            <td>{{price + 0.18}}元/小时</td>
           </tr>
           <tr>
-            <td>00:00-06:00</td>
-            <td>0.28元/小时</td>
+            <td>16:00-22:00</td>
+            <td>0.3元/小时</td>
           </tr>
           <tr>
-            <td>00:00-06:00</td>
-            <td>0.28元/小时</td>
+            <td>22:00-00:00</td>
+            <td>{{price + 0.18}}元/小时</td>
           </tr>
         </table>
       </div>
     </div>
   </div>
 </template>
+<script>
+import {getPrice} from '@/api/api';
+
+export default {
+   data: function (params) {
+      return {
+         price: []
+      }
+   },
+   mounted: function () {
+      this.doGetPrice();
+   },
+   methods: {
+      doGetPrice: async function () {
+         let res = await getPrice();
+         if(res.meta.code === 0){
+            this.price = res.data.price;
+         }
+      }
+   }
+}
+</script>
+
