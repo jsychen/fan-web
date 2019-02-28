@@ -119,8 +119,6 @@ export default {
                 let data = res.data;
                 this.$store.set('token', data.token);
                 this.$store.set('username', data.username);
-                this.$store.set('phone', data.phone);
-                this.$store.set('balance', data.balance);
                 this.$router.push({'name': 'customized'});
                 return;
             }

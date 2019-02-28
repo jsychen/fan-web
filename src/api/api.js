@@ -22,6 +22,9 @@ export const logout = () => fetch('/user', {}, 'DELETE');
  */
 export const getJob = data => fetch('/job', data, 'GET');
 
+// 获取用户信息
+export const getUserInfo = () => fetch('/user', {}, 'GET');
+
 // 修改用户名
 export const updateUser = data => fetch('/user', data, 'PUT');
 
@@ -52,3 +55,11 @@ export const getJobInfo = id => fetch('/job/' + id, {}, 'GET');
 
 // 编辑计划
 export const updatePlan = (id, data) => fetch('/job/' + id, data, 'PUT');
+
+// 使用计划
+/**
+ * 
+ * @param {*} data 
+ * type:  0: 使用计划和人气定制   2：账户充值  
+ */
+export const usePlan = data => fetch('/payment', data, 'POST');

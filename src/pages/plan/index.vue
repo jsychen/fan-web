@@ -47,7 +47,7 @@
             <span>{{item.number}}</span>
           </div>
         </div>
-        <button class="button" type="button">使用计划</button>
+        <router-link class="button" tag="button" :to="{'path': '/plan/use?id=' + item.id}">使用计划</router-link>
       </div>
     </div>
   </div>

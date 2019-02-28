@@ -50,9 +50,7 @@ export default {
           let res = await logout();
           if(res.meta.code === 0){
              this.$store.remove('token');
-             this.$store.remove('balance');
              this.$store.remove('username');
-             this.$store.remove('phone');
              this.$router.push({'name': 'login'});
           }
        }

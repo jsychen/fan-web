@@ -14,6 +14,7 @@ import result from '../pages/tenant/result'
 import plan from '../pages/plan'
 import addPlan from '../pages/plan/add'
 import updatePlan from '../pages/plan/update'
+import usePlan from '../pages/plan/use'
 
 
 Vue.use(Router)
@@ -61,6 +62,11 @@ export default new Router({
             path: '/plan/update',
             name: 'updatePlan',
             component: updatePlan
+         },
+         {
+            path: '/plan/use',
+            name: 'usePlan',
+            component: usePlan
          },
         {
           path: '/platformPrice',

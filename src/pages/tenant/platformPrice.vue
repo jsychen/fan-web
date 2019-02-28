@@ -11,11 +11,11 @@
           </tr>
           <tr>
             <td>00:00-06:00</td>
-            <td>{{averagePrice}}元/小时</td>
+            <td>{{averagePrice/100}}元/小时</td>
           </tr>
           <tr>
             <td>06:00-16:00</td>
-            <td>{{averagePrice}}元/小时</td>
+            <td>{{averagePrice/100}}元/小时</td>
           </tr>
           <tr>
             <td>16:00-22:00</td>
@@ -23,7 +23,7 @@
           </tr>
           <tr>
             <td>22:00-00:00</td>
-            <td>{{averagePrice}}元/小时</td>
+            <td>{{averagePrice/100}}元/小时</td>
           </tr>
         </table>
       </div>

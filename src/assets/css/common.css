@@ -366,7 +366,7 @@ button {
 .orderForm .item select {
   width: 182px;
 }
-.orderForm .item em {
+.orderForm .item > em {
   width: 30px;
   height: 30px;
   border: 1px solid #e9e9e9;
@@ -374,6 +374,11 @@ button {
   font-size: 20px;
   text-align: center;
   color: #999;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .orderForm .item p {
   color: #999;
@@ -438,6 +443,10 @@ button {
   background: #f0f0f0;
   text-align: center;
   line-height: 180px;
+}
+.pay-content .qrcode img {
+  width: 100%;
+  height: 100%;
 }
 .pay-content .tip {
   text-align: center;
@@ -665,6 +674,10 @@ button {
   background: #ddd;
   text-align: center;
   line-height: 140px;
+}
+.recharge .right .qrcode img {
+  width: 100%;
+  height: 100%;
 }
 .recharge .right p {
   text-align: center;

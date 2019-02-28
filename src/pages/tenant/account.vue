@@ -14,13 +14,9 @@
          </div>
          </div>
          <div class="balance">
-         <p>账户余额：</p>
-         <label>￥{{(balance/100).toFixed(2)}}</label>
-         <button
-            class="button"
-            type="button"
-            @click="rechargeModal = true;"
-         >充值</button>
+            <p>账户余额：</p>
+            <label>￥{{(balance/100).toFixed(2)}}</label>
+            <button class="button" type="button" @click="beforeRecharge" >充值</button>
          </div>
       </div>
       <div class="part mT20">
@@ -54,7 +50,6 @@
          </div>
       </div>
       <!-- 充值 -->
-      <!-- 支付订单 -->
       <Modal
       v-model="rechargeModal"
       title="账户充值"
@@ -65,27 +60,18 @@
          <div class="left">
             <p>支付金额</p>
             <ul>
-            <li
-               :class="{'active': item === amount}"
-               v-for="item in rechargeArr"
-               :key="item"
-            >{{item}}元</li>
+               <li :class="{'active': item === amount}" v-for="item in rechargeArr" :key="item" @click="getQrcode(item)">{{item}}元</li>
             </ul>
             <p>支付方式</p>
             <p>
-            <span class="icon-wechat"></span>
-            <em>微信</em>
+               <span class="icon-wechat"></span>
+               <em>微信</em>
             </p>
          </div>
          <div class="right">
             <div class="qrcode">
-            <img
-               :src="qrcode"
-               v-if="qrcode"
-            >
-            支付二维码
+               <img :src="qrcodeStr" v-if="qrcodeStr" alt="支付二维码">
             </div>
-
             <p class="tip">请打开微信扫码支付</p>
          </div>
       </div>
@@ -117,18 +103,18 @@
 let echarts = require("echarts");
 
 import validate from "@/utils/validate";
-import {getJob, updateUser} from '@/api/api';
+import {getUserInfo, getJob, updateUser, usePlan} from '@/api/api';
 
 export default {
    data: function() {
       return {
-         username: this.$store.get('username'),
-         phone: this.$store.get('phone'),
-         balance: this.$store.get('balance'),
+         username: '',
+         phone: '',
+         balance: 0,
          rechargeModal: false,
          echartModal: false,
          rechargeArr: [200, 500, 2000],
-         qrcode: "",
+         qrcodeStr: '',
          amount: 200,
          orders: [],
          updateModal: false,
@@ -137,8 +123,20 @@ export default {
    },
    mounted: function() {
       this.doGetJob();
+      this.doGetUserInfo();
    },
    methods: {
+      // 获取账户信息
+      doGetUserInfo: async function () {
+         let res = await getUserInfo();
+         if(res.meta.code === 0){
+            this.username = res.data.userName;
+            this.balance = res.data.balance;
+            this.phone = res.data.phone;
+            return;
+         }
+         this.$Message.error(res.meta.message);
+      },
       // 获取已购订单列表
       doGetJob: async function () {
          let data = {
@@ -248,6 +246,23 @@ export default {
             console.log("Clicked cancel");
          }
          });
+      },
+      // 点击充值按钮
+      beforeRecharge: async function () {
+         let data = {
+            type: 2,
+            totalPrice: this.amount * 100
+         };
+         let res = await usePlan(data);
+         if(res.meta.code === 0){
+            this.rechargeModal = true;
+            this.qrcodeStr = res.data;
+         }
+      },
+      // 获取支付二维码
+      getQrcode: function (amount) {
+         this.amount = amount;
+         this.beforeRecharge();
       }
    }
 };
