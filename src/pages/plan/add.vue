@@ -175,7 +175,7 @@ export default {
             'liveUrl': this.liveUrl,
             'number': this.number,
             'startTime': this.startTime,
-            'totalPrice': this.totalPrice*100,
+            'totalPrice': this.totalPrice,
             'unitPrice': this.unitPrice*100
          };
          let res = await addPlan(data);

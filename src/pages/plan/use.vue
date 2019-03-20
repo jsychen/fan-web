@@ -20,21 +20,21 @@
             <form>
                <div class="item">
                   <label>补充人气时间：</label>
-                  <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model="job.startTime" name="startTime"></DatePicker>
+                  <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.startTime" name="startTime"></DatePicker>
                   <i>至</i>
-                  <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model="job.endTime" name="endTime"></DatePicker>
+                  <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.endTime" name="endTime"></DatePicker>
                </div>
                <div class="item">
                   <label>选购在线人气：</label>
                   <em @click="doReduce">-</em>
-                  <input type="number" name="number" v-model="job.number" @change="handleNumberChange">
+                  <input type="number" name="number" v-model.trim="job.number" @change="handleNumberChange">
                   <em @click="doIncrease">+</em>
                   <p>所选时间段共有可用在线人气28888</p>
                   <div class="clear"></div>
                </div>
                <div class="item">
                   <label>直播房间地址：</label>
-                  <input type="text" name="liveUrl" v-model="job.liveUrl">
+                  <input type="text" name="liveUrl" v-model.trim="job.liveUrl">
                   <div class="clear"></div>
                </div>
                <div class="item">
@@ -78,6 +78,7 @@
 </template>
 <script>
 let echarts = require("echarts");
+
 import validate from "@/utils/validate";
 import {getJobInfo, usePlan, getPrice} from '@/api/api';
 

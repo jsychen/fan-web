@@ -34,16 +34,17 @@
                <th>操作</th>
             </tr>
             <tr v-for="item in orders" :key="item.id">
-               <td>{{item.createAt}}</td>
+               <td>{{item.createDate}}</td>
                <td>{{item.startTime}} 至 {{item.endTime}}</td>
-               <td>{{item.fansNum}}</td>
+               <td>{{item.number}}</td>
                <td>{{item.liveUrl}}</td>
-               <td>￥{{(item.price/100).toFixed(2)}}</td>
+               <td>￥{{(item.totalPrice/100).toFixed(2)}}</td>
                <td>{{item.payStr}}</td>
                <td>{{item.stateStr}}</td>
                <td>
-               <a href="javascript:;" class="blue" @click="showEchart">人气图标</a>
-               <a href="javascript:;" class="red" @click="cancelOrder" v-if="item.state === 0">撤销订单</a>
+                  <!-- <a href="javascript:;" class="blue" @click="showEchart">人气图表</a> -->
+                  <a href="javascript:;" class="red" @click="cancelOrder" v-if="item.state === 0">撤销订单</a>
+                  <template v-else>--</template>
                </td>
             </tr>
          </table>
@@ -76,7 +77,7 @@
          </div>
       </div>
       </Modal>
-      <!-- 人气图标 -->
+      <!-- 人气图表 -->
       <Modal
       v-model="echartModal"
       title="人气图表"

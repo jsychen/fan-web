@@ -12,42 +12,42 @@
         <span>人气定制</span>
       </div>
       <div class="part-content">
-        <div class="echarts">
+        <!-- <div class="echarts">
           <div id="echarts"></div>
           <p>购买的人气会在服务时间里按规律进入直播间保证平均每小时会有额外500人观看</p>
-        </div>
+        </div> -->
         <div class="orderForm">
           <div class="payMent">
-            支付金额：<span>￥298</span>
+            支付金额：<span>￥{{job.totalPrice/100}}</span>
           </div>
           <form>
             <div class="item">
               <label>补充人气时间：</label>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.startTime" name="startTime" :options="options.startTime"></DatePicker>
               <i>至</i>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}"></DatePicker>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.endTime" name="endTime" :options="options.endTime"></DatePicker>
               <div class="clear"></div>
             </div>
             <div class="item">
               <label>选购在线人气：</label>
               <em>-</em>
-              <input type="number">
+              <input type="number" v-model.trim="job.number" name="number">
               <em>+</em>
               <p>所选时间段共有可用在线人气28888</p>
               <div class="clear"></div>
             </div>
             <div class="item">
               <label>直播房间地址：</label>
-              <input type="text">
+              <input type="text" v-model.trim="job.liveUrl" name="liveUrl">
               <div class="clear"></div>
             </div>
             <div class="item">
               <label>人气均价：</label>
-              <span>0.3元 / 个 / 小时</span>
+              <span>{{job.unitPrice/100}}元 / 个 / 小时</span>
               <div class="clear"></div>
             </div>
             <div class="formBtn">
-              <button class="red" type="button">
+              <button class="red" type="button" @click="doSubmit">
                 <span class="icon-cart"></span>
                 <i>购买人气</i>
               </button>
@@ -82,14 +82,37 @@
 </template>
 <script>
 let echarts = require("echarts");
+
+import validate from "@/utils/validate";
+import { usePlan, getPrice} from '@/api/api';
+
 export default {
   data: function () {
     return {
-      payModal: false
+      payModal: false,
+      job:{
+         unitPrice: 0,
+         number: 500,
+         startTime: '',
+         endTime: ''
+      },
+      options: {
+         startTime: {
+            disabledDate (date) {
+               return date.valueOf() < new Date();
+            }
+         },
+         endTime: {
+            disabledDate (date) {
+               return date.valueOf() < new Date();
+            }
+         }
+      }
     }
   },
   mounted: function () {
-    this.initEcharts();
+   //  this.initEcharts();
+    this.doGetPrice();
   },
   methods: {
     initEcharts: function () {
@@ -138,7 +161,76 @@ export default {
       };
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option, true);
-    }
+    },
+    // 获取人气单价
+   doGetPrice: async function () {
+      let res = await getPrice();
+      if(res.meta.code === 0){
+         this.job.unitPrice = res.data.price;
+         this.handleNumberChange();
+      }
+   },
+   //  人气定制
+   doSubmit: async function () {
+      // 验证
+      let validatorJson = [
+         {
+            name: "startTime",
+            label: "开始时间",
+            rules: ['required']
+         },
+         {
+            name: 'endTime',
+            label: '结束时间',
+            rules: ['required']
+         },
+         {
+            name: 'number',
+            label: '在线人气',
+            rules: ['required']
+         },
+         {
+            name: 'liveUrl',
+            label: '直播房间地址',
+            rules: ['required', 'platform']
+         }
+      ];
+      if(!validate(validatorJson)){
+         return;
+      }
+      let data = this.job;
+      if(typeof data.startTime === 'object'){
+         data.startTime = this.dateConversion(data.startTime);
+         data.endTime = this.dateConversion(data.endTime);
+      }
+      
+      data.type = 0;
+
+      let res = await usePlan(data);
+      if(res.meta.code === 0){
+         if(res.data){
+            this.qrcodeStr = res.data;
+            this.payModal = true;
+         } else {
+            this.$Message.success('支付成功');
+         }
+         return;
+      }
+      this.$Message.error(res.meta.message);
+   },
+   // 修改人气数
+   handleNumberChange: function () {
+      let job = this.job;
+      job.totalPrice = parseInt(job.unitPrice * job.number);
+   },
+   // 日期格式转化
+   dateConversion: function (date) {
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let hour = date.getHours();
+      return year + '-' + (month<10 ? '0' + month : month) + '-' + (day<10 ? '0' + day : day) + ' ' + (hour<10 ? '0' + hour : hour) + ':00';
+   },
   }
 }
 </script>

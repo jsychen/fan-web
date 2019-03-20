@@ -19,7 +19,7 @@ import usePlan from '../pages/plan/use'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   linkActiveClass: 'current',
   routes: [
@@ -79,6 +79,22 @@ export default new Router({
           component: account
         }
       ]
-    }
+    },
+    {
+      path: '/*',
+      name: 'login',
+      component: login
+   }
   ]
 })
+router.beforeEach((to, from, next) => {
+   let token = localStorage.getItem('token');
+   if(!token && to.name !== 'login'){
+      next({
+         path: '/login'
+       })
+       return;
+   }
+   next();
+ });
+ export default router;
