@@ -23,9 +23,10 @@
           <form>
             <div class="item">
               <label>补充人气时间：</label>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.startTime" name="startTime" :options="options.startTime"></DatePicker>
+              <!-- :time-picker-options="{steps: [1, 60]}" -->
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" v-model.trim="job.startTime" name="startTime"></DatePicker>
               <i>至</i>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.endTime" name="endTime" :options="options.endTime"></DatePicker>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" v-model.trim="job.endTime" name="endTime"></DatePicker>
               <div class="clear"></div>
             </div>
             <div class="item">
@@ -92,22 +93,23 @@ export default {
       payModal: false,
       job:{
          unitPrice: 0,
-         number: 500,
-         startTime: '',
-         endTime: ''
+         number: 1,
+         startTime: '2019-03-21 19:10:00',
+         endTime: '2019-03-21 19:30:00',
+         liveUrl: 'https://egame.qq.com/403517354'
       },
-      options: {
-         startTime: {
-            disabledDate (date) {
-               return date.valueOf() < new Date();
-            }
-         },
-         endTime: {
-            disabledDate (date) {
-               return date.valueOf() < new Date();
-            }
-         }
-      }
+      // options: {
+      //    startTime: {
+      //       disabledDate (date) {
+      //          return date.valueOf() <= new Date();
+      //       }
+      //    },
+      //    endTime: {
+      //       disabledDate (date) {
+      //          return date.valueOf() <= new Date();
+      //       }
+      //    }
+      // }
     }
   },
   mounted: function () {
@@ -198,14 +200,12 @@ export default {
       if(!validate(validatorJson)){
          return;
       }
-      let data = this.job;
-      if(typeof data.startTime === 'object'){
-         data.startTime = this.dateConversion(data.startTime);
-         data.endTime = this.dateConversion(data.endTime);
-      }
-      
-      data.type = 0;
+      let data = {...this.job};
 
+      data.startTime = this.dateConversion(data.startTime);
+      data.endTime = this.dateConversion(data.endTime);
+      data.type = 0;
+      
       let res = await usePlan(data);
       if(res.meta.code === 0){
          if(res.data){
@@ -222,15 +222,7 @@ export default {
    handleNumberChange: function () {
       let job = this.job;
       job.totalPrice = parseInt(job.unitPrice * job.number);
-   },
-   // 日期格式转化
-   dateConversion: function (date) {
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      let hour = date.getHours();
-      return year + '-' + (month<10 ? '0' + month : month) + '-' + (day<10 ? '0' + day : day) + ' ' + (hour<10 ? '0' + hour : hour) + ':00';
-   },
+   }
   }
 }
 </script>

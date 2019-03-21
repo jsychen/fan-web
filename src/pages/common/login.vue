@@ -44,7 +44,7 @@ export default {
     data: function() {
         return {
             phone: '13621371454',
-            verification: '1111',
+            verification: '',
             disabled: false,
             btnStr: '获取验证码'
         };
@@ -64,7 +64,8 @@ export default {
                 return;
             }
             let data = {
-                phone: this.phone
+                phone: this.phone,
+                type: 0
             };
             
             let res = await getCode(data);
@@ -73,7 +74,7 @@ export default {
                 this.$Message.error(message);
             } else {
                 this.$Message.success(message);
-                this.verification = res.data;
+               //  this.verification = res.data;
                 //倒计时
                 let count = 120;
                 let timer;

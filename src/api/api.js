@@ -1,6 +1,12 @@
 import fetch from '@/config/fetch';
 
-// 获取验证码
+// 获取验证码\
+/**
+ * 
+ * @param {*} data 
+ * phone
+ * type: 0: 登录 1: 注册
+ */
 export const getCode = data => fetch('/sms/verification', data, 'GET');
 
 // 注册

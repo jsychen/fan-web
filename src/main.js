@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import iView from 'iview'
 import store from 'storejs'
+import dateConversion from './utils/dateConversion'
 
 Vue.use(iView)
 
@@ -15,7 +16,8 @@ import './assets/css/font.css'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$store = store
+Vue.prototype.$store = store;
+Vue.prototype.dateConversion = dateConversion;
 
 
 /* eslint-disable no-new */

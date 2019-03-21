@@ -70,7 +70,8 @@ export default {
             }
 
             data = {
-                phone: phone
+                phone: phone,
+                type: 1
             };
             let res = await getCode(data);
             let message = res.meta.message;
