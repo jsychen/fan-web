@@ -230,27 +230,30 @@ button {
   overflow-y: auto;
 }
 .platform {
-  width: 400px;
-  height: 160px;
-  background: url(../images/platformBg.png);
-  padding: 20px 30px;
+  width: 100%;
   overflow: hidden;
   clear: both;
   margin-bottom: 20px;
 }
-.platform .info {
-  width: 260px;
+.platform .item {
   float: left;
+  width: 400px;
+  height: 160px;
+  padding: 20px 30px;
+  margin-right: 20px;
 }
-.platform .info * {
+.platform .item:nth-of-type(1) {
+  background: url(../images/qie.png);
+}
+.platform .item:nth-of-type(2) {
+  background: url(../images/huya.png);
+}
+.platform .item * {
   color: #fff;
 }
-.platform .info p {
+.platform .item p {
   font-size: 60px;
-}
-.platform img {
-  float: right;
-  width: 70px;
+  line-height: 80px;
 }
 .part {
   padding: 20px;

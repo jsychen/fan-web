@@ -6,6 +6,7 @@ import router from './router'
 import iView from 'iview'
 import store from 'storejs'
 import dateConversion from './utils/dateConversion'
+import changeNum from './utils/changeNum'
 
 Vue.use(iView)
 
@@ -18,6 +19,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.$store = store;
 Vue.prototype.dateConversion = dateConversion;
+Vue.prototype.changeNum = changeNum;
+
 
 
 /* eslint-disable no-new */

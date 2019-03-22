@@ -237,27 +237,30 @@ button{
   overflow-y: auto;
 }
 .platform{
-  width: 400px;
-  height: 160px;
-  background: url(../images/platformBg.png);
-  padding: 20px 30px;
-  overflow: hidden;
-  clear: both;
-  margin-bottom: 20px;
-  .info{
-    width: 260px;
-    float: left;
-    *{
-      color: #fff;
-    }
-    p{
-      font-size: 60px;
-    }
-  }
-  img{
-    float: right;
-    width: 70px;
-  }
+   width: 100%;
+   overflow: hidden;
+   clear: both;
+   margin-bottom: 20px;
+   .item{
+      float: left;
+      width: 400px;
+      height: 160px;
+      padding: 20px 30px;
+      margin-right: 20px;
+      &:nth-of-type(1){
+         background: url(../images/qie.png);
+      }
+      &:nth-of-type(2){
+         background: url(../images/huya.png);
+      }
+      *{
+         color: #fff;
+       }
+       p{
+         font-size: 60px;
+         line-height: 80px;
+       }
+   }
 }
 .part{
    padding: 20px;

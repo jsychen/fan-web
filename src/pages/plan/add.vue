@@ -8,45 +8,47 @@
          <div class="title">
             <span>创建计划</span>
          </div>
-         <div class="orderForm">
-            <div class="payMent">
-               预计支付金额：<span>￥{{totalPrice/100}}</span>
+         <div class="part-content">
+            <div class="orderForm">
+               <div class="payMent">
+                  预计支付金额：<span>￥{{totalPrice/100}}</span>
+               </div>
+               <form>
+                  <div class="item">
+                     <label>计划名称：</label>
+                     <input type="text" v-model="jobName" name="jobName">
+                     <div class="clear"></div>
+                  </div>
+                  <div class="item">
+                     <label>补充人气时间：</label>
+                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="startTime" name="startTime"></TimePicker>
+                     <i>至</i>
+                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="endTime" name="endTime"></TimePicker>
+                     <div class="clear"></div>
+                  </div>
+                  <div class="item">
+                     <label>选购在线人气：</label>
+                     <em @click="handleChangeNum(1)">-</em>
+                     <input type="number" v-model="number" name="number" @change="handleChangeNum(2)">
+                     <em @click="handleChangeNum(0)">+</em>
+                     <p>所选时间段共有可用在线人气28888</p>
+                     <div class="clear"></div>
+                  </div>
+                  <div class="item">
+                     <label>直播房间地址：</label>
+                     <input type="text" v-model="liveUrl" name="liveUrl">
+                     <div class="clear"></div>
+                  </div>
+                  <div class="item">
+                     <label>人气均价：</label>
+                     <span>{{unitPrice/100}}元 / 个 / 小时</span>
+                     <div class="clear"></div>
+                  </div>
+                  <div class="formBtn">
+                     <button class="blue" type="button" @click="doAddPlan">创建计划</button>
+                  </div>
+               </form>
             </div>
-            <form>
-               <div class="item">
-                  <label>计划名称：</label>
-                  <input type="text" v-model="jobName" name="jobName">
-               </div>
-               <div class="item">
-                  <label>补充人气时间：</label>
-                  <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="startTime" name="startTime"></TimePicker>
-                  <i>至</i>
-                  <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="endTime" name="endTime"></TimePicker>
-                  <div class="clear"></div>
-               </div>
-               <div class="item">
-                  <label>选购在线人气：</label>
-                  <em @click="doReduce">-</em>
-                  <input type="number" v-model="number" name="number" @change="handleNumberChange">
-                  <em @click="doIncrease">+</em>
-                  <p>所选时间段共有可用在线人气28888</p>
-               <div class="clear"></div>
-               </div>
-               <div class="item">
-                  <label>直播房间地址：</label>
-                  <input type="text" v-model="liveUrl" name="liveUrl">
-                  <div class="clear"></div>
-               </div>
-               <div class="item">
-                  <label>人气均价：</label>
-                  <span>{{unitPrice/100}}元 / 个 / 小时</span>
-                  <div class="clear"></div>
-               </div>
-               <div class="formBtn">
-                  <button class="blue" type="button" @click="doAddPlan">创建计划</button>
-               </div>
-            </form>
-         </div>
          </div>
       </div>
    </div>
@@ -109,7 +111,7 @@ export default {
             {
                name: 'liveUrl',
                label: '直播房间地址',
-               rules: ['required', 'platform']
+               rules: ['required', 'url', 'platform']
             }
          ];
          if(!validate(validatorJson)){
@@ -122,7 +124,7 @@ export default {
             'number': this.number,
             'startTime': this.startTime,
             'totalPrice': this.totalPrice,
-            'unitPrice': this.unitPrice*100
+            'unitPrice': this.unitPrice
          };
          let res = await addPlan(data);
          if(res.meta.code === 0){
@@ -132,20 +134,10 @@ export default {
          this.$Message.error(res.meta.message);
       },
       // 修改人气数
-      handleNumberChange: function () {
-         this.totalPrice = (this.unitPrice * this.number).toFixed(2);
-      },
-      // 减少在线人气
-      doReduce: function () {
-         if(this.number > 0){
-            this.number--;
-            this.handleNumberChange();
-         }
-      },
-      // 增加在线人气
-      doIncrease: function () {
-         this.number++;
-         this.handleNumberChange();
+      handleChangeNum: function (type) {
+         let number = this.changeNum(this.number, type);
+         this.number = number;
+         this.totalPrice = number * this.unitPrice;
       }
    }
 }

@@ -43,7 +43,7 @@
                <td>{{item.stateStr}}</td>
                <td>
                   <!-- <a href="javascript:;" class="blue" @click="showEchart">人气图表</a> -->
-                  <a href="javascript:;" class="red" @click="cancelOrder" v-if="item.state === 0">撤销订单</a>
+                  <a href="javascript:;" class="red" @click="beforeCancel(item.id)" v-if="item.state === 0">撤销订单</a>
                   <template v-else>--</template>
                </td>
             </tr>
@@ -52,51 +52,51 @@
       </div>
       <!-- 充值 -->
       <Modal
-      v-model="rechargeModal"
-      title="账户充值"
-      width="540"
-      footer-hide
+         v-model="rechargeModal"
+         title="账户充值"
+         width="540"
+         footer-hide
       >
-      <div class="recharge">
-         <div class="left">
-            <p>支付金额</p>
-            <ul>
-               <li :class="{'active': item === amount}" v-for="item in rechargeArr" :key="item" @click="getQrcode(item)">{{item}}元</li>
-            </ul>
-            <p>支付方式</p>
-            <p>
-               <span class="icon-wechat"></span>
-               <em>微信</em>
-            </p>
-         </div>
-         <div class="right">
-            <div class="qrcode">
-               <img :src="qrcodeStr" v-if="qrcodeStr" alt="支付二维码">
+         <div class="recharge">
+            <div class="left">
+               <p>支付金额</p>
+               <ul>
+                  <li :class="{'active': item === amount}" v-for="item in rechargeArr" :key="item" @click="getQrcode(item)">{{item}}元</li>
+               </ul>
+               <p>支付方式</p>
+               <p>
+                  <span class="icon-wechat"></span>
+                  <em>微信</em>
+               </p>
             </div>
-            <p class="tip">请打开微信扫码支付</p>
+            <div class="right">
+               <div class="qrcode">
+                  <img :src="qrcodeStr" v-if="qrcodeStr" alt="支付二维码">
+               </div>
+               <p class="tip">请打开微信扫码支付</p>
+            </div>
          </div>
-      </div>
       </Modal>
       <!-- 人气图表 -->
       <Modal
-      v-model="echartModal"
-      title="人气图表"
-      width="360"
-      footer-hide
+         v-model="echartModal"
+         title="人气图表"
+         width="360"
+         footer-hide
       >
-      <div id="echarts"></div>
+         <div id="echarts"></div>
       </Modal>
       <!-- 修改用户昵称 -->
       <Modal
-      v-model="updateModal"
-      title="编辑用户昵称"
-      width="300"
-      :loading="true"
-      @on-ok="doUpdateUser"
+         v-model="updateModal"
+         title="编辑用户昵称"
+         width="300"
+         :loading="true"
+         @on-ok="doUpdateUser"
       >
-      <div class="update">
-         <input class="ivu-input ivu-input-default" v-model="newUsername" placeholder="填写2-12个字的中英文昵称" name="username"/>
-      </div>
+         <div class="update">
+            <input class="ivu-input ivu-input-default" v-model="newUsername" placeholder="填写2-12个字的中英文昵称" name="username"/>
+         </div>
       </Modal>
   </div>
 </template>
@@ -104,7 +104,7 @@
 let echarts = require("echarts");
 
 import validate from "@/utils/validate";
-import {getUserInfo, getJob, updateUser, usePlan} from '@/api/api';
+import {getUserInfo, getJob, updateUser, usePlan, cancelOrder} from '@/api/api';
 
 export default {
    data: function() {
@@ -236,23 +236,29 @@ export default {
          myChart.setOption(option, true);
       },
       // 撤销订单
-      cancelOrder: function() {
+      beforeCancel: function(id) {
          this.$Modal.confirm({
-         title: "确认撤销订单吗？",
-         content: "",
-         onOk: () => {
-            console.log("Clicked ok");
-         },
-         onCancel: () => {
-            console.log("Clicked cancel");
-         }
+            title: "确认撤销订单吗？",
+            content: "",
+            onOk: () => {
+               this.handleCancel(id);
+            }
          });
+      },
+      handleCancel: async function (id) {
+         let res = await cancelOrder(id);
+         if(res.meta.code === 0){
+            this.$Message.success('撤销成功');
+            return;
+         }
+         this.$Message.success(res.meta.message);
       },
       // 点击充值按钮
       beforeRecharge: async function () {
          let data = {
             type: 2,
-            totalPrice: this.amount * 100
+            // totalPrice: this.amount * 100
+            totalPrice: 1
          };
          let res = await usePlan(data);
          if(res.meta.code === 0){

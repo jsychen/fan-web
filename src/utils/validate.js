@@ -4,7 +4,7 @@ import iView from 'iview';
 Vue.use(iView);
 let bus = new Vue();
 
-const platformDomain = ['https://egame.qq.com/'];
+const platformDomain = ['egame.qq.com/', 'www.huya.com/'];
 
 const errMsg = {
     /* 必填项 */
@@ -40,6 +40,16 @@ const errMsg = {
                 || /([0-9]{4})/
                     .test(val);
         }
+    },
+   //  URL地址 
+    url: {
+      msg: "不合法",      
+      test: function (val) {
+        return !val
+          || val === 'http://'
+          || /^https?:\/\/([a-z0-9-]+\.)+[a-z0-9]{2,4}.*$/
+            .test(val);
+      }
     },
     // 平台
     platform: {

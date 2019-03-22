@@ -1,11 +1,14 @@
 <template>
   <div class="content">
     <div class="platform">
-      <div class="info">
+      <div class="item">
         <p>28888</p>
         <span>直播间在线人气资源<br>企鹅电竞</span>
       </div>
-      <img src="../../assets/images/qie.svg" alt="">
+      <div class="item">
+        <p>28888</p>
+        <span>直播间在线人气资源<br>虎牙直播</span>
+      </div>
     </div>
     <div class="part">
       <div class="title">
@@ -31,9 +34,9 @@
             </div>
             <div class="item">
               <label>选购在线人气：</label>
-              <em>-</em>
-              <input type="number" v-model.trim="job.number" name="number">
-              <em>+</em>
+              <em @click="handleChangeNum(1)">-</em>
+              <input type="number" v-model.trim="job.number" name="number" @change="handleChangeNum(2)">
+              <em @click="handleChangeNum(0)">+</em>
               <p>所选时间段共有可用在线人气28888</p>
               <div class="clear"></div>
             </div>
@@ -66,7 +69,7 @@
         <div class="pay-content">
           <div class="item">
             <label>支付金额：</label>
-            <i>298元</i>
+            <i>{{job.totalPrice/100}}元</i>
           </div>
           <div class="item">
             <label>支付方式：</label>
@@ -74,7 +77,7 @@
             <em>微信</em>
           </div>
           <div class="qrcode">
-            支付二维码
+            <img :src="qrcodeStr" alt="支付二维码">
           </div>
           <p class="tip">请打开微信扫码支付</p>
         </div>
@@ -169,7 +172,7 @@ export default {
       let res = await getPrice();
       if(res.meta.code === 0){
          this.job.unitPrice = res.data.price;
-         this.handleNumberChange();
+         this.job.totalPrice = this.job.unitPrice * this.job.number;
       }
    },
    //  人气定制
@@ -194,7 +197,7 @@ export default {
          {
             name: 'liveUrl',
             label: '直播房间地址',
-            rules: ['required', 'platform']
+            rules: ['required', 'url', 'platform']
          }
       ];
       if(!validate(validatorJson)){
@@ -219,9 +222,10 @@ export default {
       this.$Message.error(res.meta.message);
    },
    // 修改人气数
-   handleNumberChange: function () {
-      let job = this.job;
-      job.totalPrice = parseInt(job.unitPrice * job.number);
+   handleChangeNum: function (type) {
+      let number = this.changeNum(this.job.number, type);
+      this.job.number = number;
+      this.job.totalPrice = number * this.job.unitPrice;
    }
   }
 }

@@ -69,3 +69,6 @@ export const updatePlan = (id, data) => fetch('/job/' + id, data, 'PUT');
  * type:  0: 使用计划和人气定制   2：账户充值  
  */
 export const usePlan = data => fetch('/payment', data, 'POST');
+
+/** 撤销订单 */
+export const cancelOrder = jobId => fetch('/refund/' + jobId, {}, 'POST');
