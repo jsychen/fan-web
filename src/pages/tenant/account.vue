@@ -257,8 +257,8 @@ export default {
       beforeRecharge: async function () {
          let data = {
             type: 2,
-            // totalPrice: this.amount * 100
-            totalPrice: 1
+            totalPrice: this.amount * 100
+            // totalPrice: 1
          };
          let res = await usePlan(data);
          if(res.meta.code === 0){
