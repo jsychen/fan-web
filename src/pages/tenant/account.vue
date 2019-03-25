@@ -249,9 +249,11 @@ export default {
          let res = await cancelOrder(id);
          if(res.meta.code === 0){
             this.$Message.success('撤销成功');
+            this.doGetJob();
+            this.doGetUserInfo();
             return;
          }
-         this.$Message.success(res.meta.message);
+         this.$Message.error(res.meta.message);
       },
       // 点击充值按钮
       beforeRecharge: async function () {
