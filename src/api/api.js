@@ -72,3 +72,6 @@ export const usePlan = data => fetch('/payment', data, 'POST');
 
 /** 撤销订单 */
 export const cancelOrder = jobId => fetch('/refund/' + jobId, {}, 'POST');
+
+/** 获取可用人气数 */
+export const getExecutable = data => fetch('/executable', data, 'GET');

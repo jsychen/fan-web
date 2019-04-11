@@ -15,17 +15,21 @@
                </div>
                <form>
                   <div class="item">
-                     <label>补充人气时间：</label>
-                     <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.startTime" name="startTime"></DatePicker>
-                     <i>至</i>
-                     <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 60]}" v-model.trim="job.endTime" name="endTime"></DatePicker>
+                     <label>开始时间：</label>
+                     <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" :time-picker-options="{steps: [1, 10]}" v-model.trim="job.startTime" name="startTime" @on-change="handleGetExecutable"></DatePicker>
+                  </div>
+                  <div class="item">
+                     <label>时长：</label>
+                     <em @click="handleDuration(1)">-</em>
+                     <input type="number" name="duration" v-model="job.duration" @change="handleDuration(2)">
+                     <em @click="handleDuration(0)">+</em>
                   </div>
                   <div class="item">
                      <label>选购在线人气：</label>
-                     <em @click="handleChangeNum(1)">-</em>
-                     <input type="number" v-model.trim="job.number" name="number" @change="handleChangeNum(2)">
-                     <em @click="handleChangeNum(0)">+</em>
-                     <p>所选时间段共有可用在线人气28888</p>
+                     <em @click="handleNumber(1)">-</em>
+                     <input type="number" v-model.trim="job.number" name="number" @change="handleNumber(2)">
+                     <em @click="handleNumber(0)">+</em>
+                     <p class="red">所选时间段共有可用在线人气{{executable}}</p>
                      <div class="clear"></div>
                   </div>
                   <div class="item">
@@ -76,7 +80,7 @@
 let echarts = require("echarts");
 
 import validate from "@/utils/validate";
-import {getJobInfo, usePlan, getPrice} from '@/api/api';
+import {getJobInfo, usePlan, getPrice, getExecutable} from '@/api/api';
 
 export default {
    data: function () {
@@ -84,19 +88,21 @@ export default {
          payModal: false,
          job: {},
          id: null,
-         qrcodeStr: ''
+         qrcodeStr: '',
+         duration: 1,
+         executable: 0
       }
    },
    mounted: function () {
       this.doGetJobInfo();
+      this.handleGetExecutable();
    },
    methods: {
       // 获取人气单价
       doGetPrice: async function () {
          let res = await getPrice();
          if(res.meta.code === 0){
-            this.job.unitPrice = res.data.price;
-            this.handleNumberChange();
+            this.priceCount();
          }
       },
       // 获取计划详情
@@ -111,13 +117,9 @@ export default {
             let dateStr = date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
             this.job.startTime = dateStr + ' ' + this.job.startTime;
             this.job.endTime = dateStr + ' ' + this.job.endTime;
+            this.handleGetExecutable();
             this.doGetPrice();
          }
-      },
-      // 修改人气数
-      handleNumberChange: function () {
-         let job = this.job;
-         job.totalPrice = parseInt(job.unitPrice * job.number);
       },
       // 购买人气
       doSubmit: async function () {
@@ -129,8 +131,8 @@ export default {
                rules: ['required']
             },
             {
-               name: 'endTime',
-               label: '结束时间',
+               name: 'duration',
+               label: '时长',
                rules: ['required']
             },
             {
@@ -150,7 +152,6 @@ export default {
          let data = {...this.job};
 
          data.startTime = this.dateConversion(data.startTime);
-         data.endTime = this.dateConversion(data.endTime);
          data.type = 0;
 
          let res = await usePlan(data);
@@ -169,10 +170,49 @@ export default {
          this.$Message.error(res.meta.message);
       },
       // 修改人气数
-      handleChangeNum: function (type) {
+      handleNumber: function (type) {
          let number = this.changeNum(this.job.number, type);
+         if(number >= this.executable){
+            this.job.number = this.executable;
+            return;
+         }
          this.job.number = number;
-         this.job.totalPrice = number * this.job.unitPrice;
+      },
+      // 修改时长
+      handleDuration: function (type) {
+         let duration = this.changeNum(this.job.duration, type);
+         this.job.duration = duration;
+      },
+      // 价格计算
+      priceCount: function () {
+         this.job.totalPrice = this.job.duration * this.job.unitPrice * this.job.number;
+      },
+      // 获取可用人气数
+      handleGetExecutable: async function () {
+         let startTime = this.job.startTime;
+         startTime && (startTime = this.dateConversion(startTime));
+         let duration = this.job.duration;
+         let data = {
+            startTime: startTime,
+            duration: duration
+         }
+         let res = await getExecutable(data);
+         if(res.meta.code === 0){
+            this.executable = res.data;
+            !startTime && (this.maxExecutable = res.data);
+            if(this.job.number >= this.executable){
+               this.job.number = this.executable;
+            }
+         }
+      }
+   },
+   watch: {
+      'job.duration': function (){
+         this.priceCount();
+         this.handleGetExecutable();
+      },
+      'job.number': function () {
+         this.priceCount();
       }
    }
 }

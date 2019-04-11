@@ -7,10 +7,12 @@
  */
 let baseUrl = '';
 if (process.env.NODE_ENV === 'development') {
-    baseUrl = 'http://192.168.2.175:7000';
+   //  baseUrl = 'http://192.168.2.175:7000';
+   baseUrl = 'http://fans.natapp1.cc';
+
     
 } else {
-    baseUrl = 'https://mp.evtape.cn/api';
+    baseUrl = 'http://fans.natapp1.cc';
 }
 
 export {baseUrl};

@@ -43,7 +43,7 @@
                <td>{{item.stateStr}}</td>
                <td>
                   <!-- <a href="javascript:;" class="blue" @click="showEchart">人气图表</a> -->
-                  <a href="javascript:;" class="red" @click="beforeCancel(item.id)" v-if="item.state === 0">撤销订单</a>
+                  <a href="javascript:;" class="red" @click="beforeCancel(item.id)" v-if="item.state === 0 || item.state === 3">撤销订单</a>
                   <template v-else>--</template>
                </td>
             </tr>
@@ -55,7 +55,9 @@
          v-model="rechargeModal"
          title="账户充值"
          width="540"
-         footer-hide
+         ok-text="支付成功"
+         cancel-text="取消支付"
+         @on-ok="paySuccess"
       >
          <div class="recharge">
             <div class="left">
@@ -272,6 +274,11 @@ export default {
       getQrcode: function (amount) {
          this.amount = amount;
          this.beforeRecharge();
+      },
+      // 支付成功
+      paySuccess: function () {
+         this.doGetJob();
+         this.doGetUserInfo();
       }
    }
 };

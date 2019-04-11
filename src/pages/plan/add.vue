@@ -20,18 +20,21 @@
                      <div class="clear"></div>
                   </div>
                   <div class="item">
-                     <label>补充人气时间：</label>
-                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="startTime" name="startTime"></TimePicker>
-                     <i>至</i>
-                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" v-model="endTime" name="endTime"></TimePicker>
+                     <label>开始时间：</label>
+                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 10]" v-model="startTime" name="startTime"></TimePicker>
                      <div class="clear"></div>
                   </div>
                   <div class="item">
+                     <label>时长：</label>
+                     <em @click="handleDuration(1)">-</em>
+                     <input type="number" name="duration" v-model="duration">
+                     <em @click="handleDuration(0)">+</em>
+                  </div>
+                  <div class="item">
                      <label>选购在线人气：</label>
-                     <em @click="handleChangeNum(1)">-</em>
-                     <input type="number" v-model="number" name="number" @change="handleChangeNum(2)">
-                     <em @click="handleChangeNum(0)">+</em>
-                     <p>所选时间段共有可用在线人气28888</p>
+                     <em @click="handleNumber(1)">-</em>
+                     <input type="number" v-model="number" name="number" @change="handleNumber(2)">
+                     <em @click="handleNumber(0)">+</em>
                      <div class="clear"></div>
                   </div>
                   <div class="item">
@@ -64,11 +67,11 @@ export default {
       return {
          unitPrice: 0,
          payModal: true,
-         jobName: '计划一',
-         number: 500,
-         startTime: '19:00',
-         endTime: '23:00',
-         liveUrl: 'https://egame.qq.com/895462',
+         jobName: '',
+         number: 0,
+         startTime: '',
+         duration: 0,
+         liveUrl: '',
          totalPrice: 0
       }
    },
@@ -81,7 +84,7 @@ export default {
          let res = await getPrice();
          if(res.meta.code === 0){
             this.unitPrice = res.data.price;
-            this.totalPrice = this.unitPrice * this.number;
+            this.priceCount();
          }
       },
       // 创建计划
@@ -99,8 +102,8 @@ export default {
                rules: ['required']
             },
             {
-               name: 'endTime',
-               label: '结束时间',
+               name: 'duration',
+               label: '时长',
                rules: ['required']
             },
             {
@@ -118,7 +121,7 @@ export default {
             return;
          }
          let data = {
-            'endTime': this.endTime,
+            'duration': this.duration,
             'jobName': this.jobName,
             'liveUrl': this.liveUrl,
             'number': this.number,
@@ -134,10 +137,26 @@ export default {
          this.$Message.error(res.meta.message);
       },
       // 修改人气数
-      handleChangeNum: function (type) {
+      handleNumber: function (type) {
          let number = this.changeNum(this.number, type);
          this.number = number;
-         this.totalPrice = number * this.unitPrice;
+      },
+      // 修改时长
+      handleDuration: function (type) {
+         let duration = this.changeNum(this.duration, type);
+         this.duration = duration;
+      },
+      // 价格计算
+      priceCount: function () {
+         this.totalPrice = this.duration * this.unitPrice * this.number;
+      }
+   },
+   watch: {
+      'duration': function (){
+         this.priceCount();
+      },
+      'number': function () {
+         this.priceCount();
       }
    }
 }

@@ -19,18 +19,21 @@
                      <input type="text" placeholder="计划一" name="jobName" v-model="job.jobName">
                   </div>
                   <div class="item">
-                     <label>补充人气时间：</label>
-                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" name="startTime" v-model="job.startTime"></TimePicker>
-                     <i>至</i>
-                     <TimePicker type="time" format="HH:mm" placeholder="选择时间" :steps="[1, 60]" name="endTime" v-model="job.endTime"></TimePicker>
+                     <label>开始时间：</label>
+                     <DatePicker type="datetime" format="HH:mm" placeholder="选择时间" v-model.trim="job.startTime" name="startTime" :time-picker-options="{steps: [1, 10]}"></DatePicker>
                      <div class="clear"></div>
+                  </div>
+                  <div class="item">
+                     <label>时长：</label>
+                     <em @click="handleDuration(1)">-</em>
+                     <input type="number" name="duration" v-model="job.duration">
+                     <em @click="handleDuration(0)">+</em>
                   </div>
                   <div class="item">
                      <label>选购在线人气：</label>
                      <em @click="handleChangeNum(1)">-</em>
                      <input type="number" v-model.trim="job.number" name="number" @change="handleChangeNum(2)">
                      <em @click="handleChangeNum(0)">+</em>
-                     <p>所选时间段共有可用在线人气28888</p>
                      <div class="clear"></div>
                   </div>
                   <div class="item">
@@ -92,8 +95,8 @@ export default {
                rules: ['required']
             },
             {
-               name: 'endTime',
-               label: '结束时间',
+               name: 'duration',
+               label: '时长',
                rules: ['required']
             },
             {
@@ -121,7 +124,23 @@ export default {
       handleChangeNum: function (type) {
          let number = this.changeNum(this.job.number, type);
          this.job.number = number;
-         this.job.totalPrice = number * this.job.unitPrice;
+      },
+      // 修改时长
+      handleDuration: function (type) {
+         let duration = this.changeNum(this.job.duration, type);
+         this.job.duration = duration;
+      },
+      // 价格计算
+      priceCount: function () {
+         this.job.totalPrice = this.job.duration * this.job.unitPrice * this.job.number;
+      }
+   },
+   watch: {
+      'job.duration': function (){
+         this.priceCount();
+      },
+      'job.number': function () {
+         this.priceCount();
       }
    }
 }

@@ -1,12 +1,11 @@
 <template>
   <div class="content">
     <div class="platform">
-      <div class="item">
-        <p>28888</p>
+      <!-- <div class="item">
         <span>直播间在线人气资源<br>企鹅电竞</span>
-      </div>
+      </div> -->
       <div class="item">
-        <p>28888</p>
+        <p>{{maxExecutable}}</p>
         <span>直播间在线人气资源<br>虎牙直播</span>
       </div>
     </div>
@@ -21,23 +20,26 @@
         </div> -->
         <div class="orderForm">
           <div class="payMent">
-            支付金额：<span>￥{{job.totalPrice/100}}</span>
+            支付金额：<span>￥{{job.totalPrice/100 || 0}}</span>
           </div>
           <form>
             <div class="item">
-              <label>补充人气时间：</label>
-              <!-- :time-picker-options="{steps: [1, 60]}" -->
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" v-model.trim="job.startTime" name="startTime"></DatePicker>
-              <i>至</i>
-              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" v-model.trim="job.endTime" name="endTime"></DatePicker>
+              <label>开始时间：</label>
+              <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" v-model.trim="job.startTime" name="startTime" :time-picker-options="{steps: [1, 10]}" @on-change="handleGetExecutable"></DatePicker>
               <div class="clear"></div>
             </div>
             <div class="item">
+              <label>时长：</label>
+              <em @click="handleDuration(1)">-</em>
+              <input type="number" name="duration" v-model="job.duration" @change="handleDuration(2)">
+              <em @click="handleDuration(0)">+</em>
+            </div>
+            <div class="item">
               <label>选购在线人气：</label>
-              <em @click="handleChangeNum(1)">-</em>
-              <input type="number" v-model.trim="job.number" name="number" @change="handleChangeNum(2)">
-              <em @click="handleChangeNum(0)">+</em>
-              <p>所选时间段共有可用在线人气28888</p>
+              <em @click="handleNumber(1)">-</em>
+              <input type="number" v-model.trim="job.number" name="number" @change="handleNumber(2)">
+              <em @click="handleNumber(0)">+</em>
+              <p class="red">所选时间段共有可用在线人气 {{executable}}</p>
               <div class="clear"></div>
             </div>
             <div class="item">
@@ -61,11 +63,13 @@
       </div>
     </div>
     <!-- 支付订单 -->
-    <Modal
-        v-model="payModal"
-        title="支付订单"
-        width="300"
-        footer-hide>
+      <Modal
+         v-model="payModal"
+         title="支付订单"
+         width="300"
+         ok-text="支付成功"
+         cancel-text="取消支付"
+      >
         <div class="pay-content">
           <div class="item">
             <label>支付金额：</label>
@@ -88,7 +92,7 @@
 let echarts = require("echarts");
 
 import validate from "@/utils/validate";
-import { usePlan, getPrice} from '@/api/api';
+import { usePlan, getPrice, getExecutable} from '@/api/api';
 
 export default {
   data: function () {
@@ -96,28 +100,19 @@ export default {
       payModal: false,
       job:{
          unitPrice: 0,
-         number: 1,
-         startTime: '2019-03-21 19:10:00',
-         endTime: '2019-03-21 19:30:00',
-         liveUrl: 'https://egame.qq.com/403517354'
+         number: 0,
+         startTime: '',
+         liveUrl: '',
+         duration: 0
       },
-      // options: {
-      //    startTime: {
-      //       disabledDate (date) {
-      //          return date.valueOf() <= new Date();
-      //       }
-      //    },
-      //    endTime: {
-      //       disabledDate (date) {
-      //          return date.valueOf() <= new Date();
-      //       }
-      //    }
-      // }
+      qrcodeStr: '',
+      executable: 0,
+      maxExecutable: 0
     }
   },
   mounted: function () {
-   //  this.initEcharts();
     this.doGetPrice();
+    this.handleGetExecutable();
   },
   methods: {
     initEcharts: function () {
@@ -172,7 +167,7 @@ export default {
       let res = await getPrice();
       if(res.meta.code === 0){
          this.job.unitPrice = res.data.price;
-         this.job.totalPrice = this.job.unitPrice * this.job.number;
+         this.priceCount();
       }
    },
    //  人气定制
@@ -185,8 +180,8 @@ export default {
             rules: ['required']
          },
          {
-            name: 'endTime',
-            label: '结束时间',
+            name: 'duration',
+            label: '时长',
             rules: ['required']
          },
          {
@@ -206,9 +201,7 @@ export default {
       let data = {...this.job};
 
       data.startTime = this.dateConversion(data.startTime);
-      data.endTime = this.dateConversion(data.endTime);
       data.type = 0;
-      
       let res = await usePlan(data);
       if(res.meta.code === 0){
          if(res.data){
@@ -222,11 +215,50 @@ export default {
       this.$Message.error(res.meta.message);
    },
    // 修改人气数
-   handleChangeNum: function (type) {
+   handleNumber: function (type) {
       let number = this.changeNum(this.job.number, type);
+      if(number >= this.executable){
+         this.job.number = this.executable;
+         return;
+      }
       this.job.number = number;
-      this.job.totalPrice = number * this.job.unitPrice;
+   },
+   // 修改时长
+   handleDuration: function (type) {
+      let duration = this.changeNum(this.job.duration, type);
+      this.job.duration = duration;
+      this.handleGetExecutable();
+   },
+   // 价格计算
+   priceCount: function () {
+      this.job.totalPrice = this.job.duration * this.job.unitPrice * this.job.number;
+   },
+   // 获取可用人气数
+   handleGetExecutable: async function () {
+      let startTime = this.job.startTime;
+      startTime && (startTime = this.dateConversion(startTime));
+      let duration = this.job.duration;
+      let data = {
+         startTime: startTime,
+         duration: duration
+      }
+      let res = await getExecutable(data);
+      if(res.meta.code === 0){
+         this.executable = res.data;
+         !startTime && (this.maxExecutable = res.data);
+         if(this.job.number >= this.executable){
+            this.job.number = this.executable;
+         }
+      }
    }
+  },
+  watch: {
+     'job.duration': function (){
+         this.priceCount();
+      },
+      'job.number': function () {
+         this.priceCount();
+      }
   }
 }
 </script>

@@ -8,7 +8,7 @@
         >
         <div class="title">
           <p>粉丝管理平台</p>
-          <span>evtape.fans.com</span>
+          <span>fan.evtape.com</span>
         </div>
       </div>
       <form id="myForm">
@@ -29,7 +29,7 @@
           <button class="button" type="button" :disabled="disabled" @click="getVerificationCode">{{btnStr}}</button>
         </div>
         <button class="button" type="button" @click="doLogin">立即登录</button>
-        <p>没有账号， <router-link tag="a" :to="{name: 'register'}" >立即注册</router-link>
+        <p>没有账号， <router-link :to="{name: 'register'}" >立即注册</router-link>
         </p>
       </form>
     </div>
@@ -43,7 +43,7 @@ import {login, getCode} from '@/api/api';
 export default {
     data: function() {
         return {
-            phone: '13621371454',
+            phone: '',
             verification: '',
             disabled: false,
             btnStr: '获取验证码'

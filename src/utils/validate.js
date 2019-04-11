@@ -4,7 +4,7 @@ import iView from 'iview';
 Vue.use(iView);
 let bus = new Vue();
 
-const platformDomain = ['egame.qq.com/', 'www.huya.com/'];
+const platformDomain = ['www.huya.com/'];
 
 const errMsg = {
     /* 必填项 */
